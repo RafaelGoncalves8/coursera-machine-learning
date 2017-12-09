@@ -1,0 +1,5 @@
+# *nix default autosave extension
+*.m~
+
+# Session info
+octave-workspace
