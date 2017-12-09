@@ -1,5 +1,8 @@
 # *nix default autosave extension
 *.m~
 
+# token
+token.mat
+
 # Session info
 octave-workspace
