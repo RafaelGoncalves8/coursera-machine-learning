@@ -14,7 +14,7 @@ J = 0;
 %               You should set J to the cost.
 
 h = X*theta; % hypothesis
-J = sum((h - y).^2)/2*m; % error function
+J = sum((h - y).^2)/(2*m); % cost function
 
 % =========================================================================
 
