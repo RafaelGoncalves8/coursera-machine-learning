@@ -62,33 +62,36 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-% Fowardpropagation
-g = @(x) sigmoid(x);
-a1 = [ones(size(X,1),1), X];
-z1 = Theta1*a1';
-a2 = [ones(1,size(z1,2)); g(z1)];
-z2 = Theta2*a2;
-a3 = g(z2);
-h = @(k) a3(k,:)';
 
 % y = mx1
 % X = mxn
 % a3 = oxm
 % Theta1 = (k+1)x(n+1)
 % Theta2 = ox(k+1)
+% n = input layer size
 % k = hidden layer size
 % o = output layer size
 
+yv=[1:num_labels] == y;
+
+% Forwardpropagation (feedforward)
+g = @(x) sigmoid(x);
+a1 = [ones(size(X,1),1), X];
+z1 = Theta1*a1';
+a2 = [ones(1,size(z1,2)); g(z1)];
+z2 = Theta2*a2;
+a3 = g(z2);
+h = a3';
+
 % Non-regularized cost function
-for k = 1:num_labels,
-    J += (sum(-y.*log(h(k)) - (ones(m,1)-y).*log(ones(size(h(k))) - h(k))))/m
-end;
+J += (sum(sum((-yv).*log(h) - (ones(size(yv))-yv).*log(ones(size(h)) - h))))/m
 
 % Regularized cost function
 % J += lambda*(sum(sum((Theta1).^2)) + sum(sum((Theta2).^2)))/(2*m);
 
 % Backpropagation
 
+% Gradient checking
 
 % -------------------------------------------------------------
 
