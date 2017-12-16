@@ -23,7 +23,7 @@ p = zeros(size(X, 1), 1);
 
 g = @(x) sigmoid(x);
 
-% a1 = 401x5000
+% a1 = 5000x401
 a1 = [ones(size(X,1),1), X];
 
 % a2 = 26x5000
