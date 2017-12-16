@@ -84,10 +84,12 @@ a3 = g(z2);
 h = a3';
 
 % Non-regularized cost function
-J += (sum(sum((-yv).*log(h) - (ones(size(yv))-yv).*log(ones(size(h)) - h))))/m
+J += (sum(sum((-yv).*log(h) - ...
+    (ones(size(yv))-yv).*log(ones(size(h)) - h))))/m;
 
 % Regularized cost function
-% J += lambda*(sum(sum((Theta1).^2)) + sum(sum((Theta2).^2)))/(2*m);
+J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
+             sum(sum((Theta2(:,2:size(Theta2,2)).^2))))/(2*m);
 
 % Backpropagation
 
