@@ -76,22 +76,33 @@ yv=[1:num_labels] == y;
 
 % Forwardpropagation (feedforward)
 g = @(x) sigmoid(x);
+g_prime = @(z) sigmoidGradient(z);
+
 a1 = [ones(size(X,1),1), X];
 z1 = Theta1*a1';
 a2 = [ones(1,size(z1,2)); g(z1)];
 z2 = Theta2*a2;
 a3 = g(z2);
-h = a3';
+
+h = a3;
 
 % Non-regularized cost function
-J += (sum(sum((-yv).*log(h) - ...
-    (ones(size(yv))-yv).*log(ones(size(h)) - h))))/m;
+J += (sum(sum((-yv).*log(h') - ...
+    (ones(size(yv))-yv).*log(ones(size(h')) - h'))))/m;
 
 % Regularized cost function
 J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
              sum(sum((Theta2(:,2:size(Theta2,2)).^2))))/(2*m);
 
 % Backpropagation
+
+d3 = h - yv';
+Delta = d3*a2';
+Theta2_grad = Delta/m;
+
+d2 = (Theta2(:,2:end)'*d3) .* g_prime(z2);
+Delta += d2*a1;
+Theta1_grad = Delta/m;
 
 % Gradient checking
 
