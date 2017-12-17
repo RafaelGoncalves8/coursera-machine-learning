@@ -62,15 +62,28 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-% y = mx1
-% X = mxn
-% a3 = oxm
-% Theta1 = (k+1)x(n+1)
-% Theta2 = ox(k+1)
+% m = number of examples
 % n = input layer size
 % k = hidden layer size
 % o = output layer size
+
+% y = mx1
+% X = mxn
+% yv = mxo
+
+% Theta1 = (k)x(n+1)
+% Theta2 = ox(k+1)
+
+% a1 = mx(n+1)
+% z2 = mxk
+% a2 = mx(k+1)
+% z3 = mxo
+% a3 = mxo
+
+% d3 = mxo
+% d2 = mxk
+% Theta1_grad = (k)*(n+1)
+% Theta2_grad = ox(k+1)
 
 yv=[1:num_labels] == y;
 
@@ -78,9 +91,9 @@ g = @(x) sigmoid(x);
 g_prime = @(z) sigmoidGradient(z);
 
 % Forwardpropagation (feedforward)
-a1 = [ones(size(X,1),1), X]; % 5000x401
+a1 = [ones(size(X,1),1), X];
 z2 = a1*Theta1';
-a2 = [ones(size(z2,1),1), g(z2)]; %5000x26
+a2 = [ones(size(z2,1),1), g(z2)];
 z3 = a2*Theta2'; % 5000x10
 a3 = g(z3);
 
@@ -96,14 +109,11 @@ J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
 
 % Backpropagation
 d3 = h - yv;
-Delta2 = a2'*d3;
+Delta2 = d3'*a2;
 Theta2_grad = Delta2/m;
-% til here backprop is working
 
-size(d3)
-% d2 = Theta2(:,2:end)'*(d3 .* g_prime(z2)); % 25x5000 .* 10x5000 (?)
-d2 = d3*Theta2(:,2:end) .* g_prime(z2); % 25x5000 .* 10x5000 (?)
-Delta1 = d2*a1;
+d2 = d3*Theta2(:,2:end) .* g_prime(z2);
+Delta1 = d2'*a1;
 Theta1_grad = Delta1/m;
 
 % Regularized backpropagation
