@@ -74,10 +74,10 @@ Theta2_grad = zeros(size(Theta2));
 
 yv=[1:num_labels] == y;
 
-% Forwardpropagation (feedforward)
 g = @(x) sigmoid(x);
 g_prime = @(z) sigmoidGradient(z);
 
+% Forwardpropagation (feedforward)
 a1 = [ones(size(X,1),1), X];
 z1 = Theta1*a1';
 a2 = [ones(1,size(z1,2)); g(z1)];
@@ -95,17 +95,15 @@ J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
              sum(sum((Theta2(:,2:size(Theta2,2)).^2))))/(2*m);
 
 % Backpropagation
-
 d3 = h - yv';
 Delta2 = d3*a2';
 Theta2_grad = Delta2/m;
 % til here backprop is working
 
-d2 = (Theta2(:,2:end)'*d3) .* g_prime(z2); % 25x5000 .* 10x5000 (?)
+d2 = Theta2(:,2:end)'*(d3 .* g_prime(z2)); % 25x5000 .* 10x5000 (?)
 Delta1 = d2*a1;
 Theta1_grad = Delta1/m;
 
-% Gradient checking
 
 % -------------------------------------------------------------
 
