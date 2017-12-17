@@ -97,12 +97,13 @@ J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
 % Backpropagation
 
 d3 = h - yv';
-Delta = d3*a2';
-Theta2_grad = Delta/m;
+Delta2 = d3*a2';
+Theta2_grad = Delta2/m;
+% til here backprop is working
 
-d2 = (Theta2(:,2:end)'*d3) .* g_prime(z2);
-Delta += d2*a1;
-Theta1_grad = Delta/m;
+d2 = (Theta2(:,2:end)'*d3) .* g_prime(z2); % 25x5000 .* 10x5000 (?)
+Delta1 = d2*a1;
+Theta1_grad = Delta1/m;
 
 % Gradient checking
 
