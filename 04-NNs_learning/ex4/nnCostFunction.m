@@ -78,32 +78,37 @@ g = @(x) sigmoid(x);
 g_prime = @(z) sigmoidGradient(z);
 
 % Forwardpropagation (feedforward)
-a1 = [ones(size(X,1),1), X];
-z1 = Theta1*a1';
-a2 = [ones(1,size(z1,2)); g(z1)];
-z2 = Theta2*a2;
-a3 = g(z2);
+a1 = [ones(size(X,1),1), X]; % 5000x401
+z2 = a1*Theta1';
+a2 = [ones(size(z2,1),1), g(z2)]; %5000x26
+z3 = a2*Theta2'; % 5000x10
+a3 = g(z3);
 
 h = a3;
 
 % Non-regularized cost function
-J += (sum(sum((-yv).*log(h') - ...
-    (ones(size(yv))-yv).*log(ones(size(h')) - h'))))/m;
+J += (sum(sum((-yv).*log(h) - ...
+    (ones(size(yv))-yv).*log(ones(size(h)) - h))))/m;
 
 % Regularized cost function
 J += lambda*(sum(sum((Theta1(:,2:size(Theta1,2)).^2))) + ...
              sum(sum((Theta2(:,2:size(Theta2,2)).^2))))/(2*m);
 
 % Backpropagation
-d3 = h - yv';
-Delta2 = d3*a2';
+d3 = h - yv;
+Delta2 = a2'*d3;
 Theta2_grad = Delta2/m;
 % til here backprop is working
 
-d2 = Theta2(:,2:end)'*(d3 .* g_prime(z2)); % 25x5000 .* 10x5000 (?)
+size(d3)
+% d2 = Theta2(:,2:end)'*(d3 .* g_prime(z2)); % 25x5000 .* 10x5000 (?)
+d2 = d3*Theta2(:,2:end) .* g_prime(z2); % 25x5000 .* 10x5000 (?)
 Delta1 = d2*a1;
 Theta1_grad = Delta1/m;
 
+% Regularized backpropagation
+Theta2_grad(:,2:end) += lambda*Theta2(:,2:end)/m;
+Theta1_grad(:,2:end) += lambda*Theta1(:,2:end)/m;
 
 % -------------------------------------------------------------
 
