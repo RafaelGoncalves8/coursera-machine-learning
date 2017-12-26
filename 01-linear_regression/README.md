@@ -1,6 +1,7 @@
 # Linear Regression
 
 ## Variables
+  - **&theta;** - minimizing parameters to be found
   - **X** - input varibles [Mx(N+1)]
     - x<sub>i0</sub> = 1 para i = 1, 2, ... N
   - **y** - lables (nx1)
