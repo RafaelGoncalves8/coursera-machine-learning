@@ -24,8 +24,7 @@ idx = zeros(size(X,1), 1);
 for i = 1:size(X,1),
     aux = [];
     for j = 1:size(centroids,1),
-        aux = [aux; (X(i,1) - centroids(j,1))^2 + ...
-                    (X(i,2) - centroids(j,2))^2];
+        aux = [aux; sum((X(i,:) - centroids(j,:)).^2)];
     end;
     [v, idx(i,1)] = min(aux, [], 1);
 end;
