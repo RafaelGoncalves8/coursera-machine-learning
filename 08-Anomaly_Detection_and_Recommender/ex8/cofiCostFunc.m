@@ -40,6 +40,10 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% Unregularized Cost
+aux = X*Theta' - Y;
+J = sum(aux(R==1).^2)/2;
+
 
 
 
