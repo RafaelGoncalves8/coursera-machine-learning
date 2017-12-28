@@ -48,7 +48,9 @@ J = sum(sum(aux.^2))/2;
 X_grad = aux*Theta;
 Theta_grad = (X'*aux)';
 
-
+% Regularized Cost
+J += lambda*sum(sum(Theta.^2))/2;
+J += lambda*sum(sum(X.^2))/2;
 
 
 
