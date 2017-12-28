@@ -39,13 +39,14 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
+aux = (X*Theta' - Y).*R;
 
 % Unregularized Cost
-aux = X*Theta' - Y;
-J = sum(aux(R==1).^2)/2;
+J = sum(sum(aux.^2))/2;
 
-
-
+% Unregularized Grad
+X_grad = aux*Theta;
+Theta_grad = (X'*aux)';
 
 
 
