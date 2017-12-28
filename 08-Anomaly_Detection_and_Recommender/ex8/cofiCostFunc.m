@@ -52,15 +52,9 @@ Theta_grad = (X'*aux)';
 J += lambda*sum(sum(Theta.^2))/2;
 J += lambda*sum(sum(X.^2))/2;
 
-
-
-
-
-
-
-
-
-
+% Regularized Grad
+X_grad += lambda*X;
+Theta_grad += lambda*Theta;
 
 % =============================================================
 
